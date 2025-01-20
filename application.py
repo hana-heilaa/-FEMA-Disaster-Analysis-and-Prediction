@@ -63,7 +63,7 @@ if 'prediction_history' not in st.session_state:
 def load_data():
     """Load and preprocess the FEMA disaster data."""
     try:
-        file = r"dataset\preprocessed\aggregate_FEMA_merged.csv"
+        file = "dataset/preprocessed/aggregate_FEMA_merged.csv"
         dates = ['declarationDate','incidentBeginDate','incidentEndDate', 'disasterCloseoutDate']
         amt = pd.read_csv(file, index_col=['disasterNumber'], parse_dates=dates, low_memory=False)
         
