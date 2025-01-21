@@ -401,35 +401,152 @@ def predict_complete_assessment(logamt):
 
 def about_tab():
     st.header("About")
+    st.subheader("📱 What Our App Does")
     st.markdown("""
-    **FEMA Disaster Analysis and Prediction Tool**
-
-    This application was developed by **Rewan Abdulkareem** in 2025 as part of the **Artificial Intelligence Olympiad**.
-
-    ---
-
-    ### Purpose
-
-    The tool aims to:
-
-    - Analyze FEMA disaster data.
-    - Predict Individual and Household Program (IHP) assistance amounts using machine learning models.
-    - Assist in understanding disaster impacts.
-    - Aid in efficient allocation of resources during disaster response.
-
-    ### Motivation
-
-    Disasters have significant impacts on communities, and efficient allocation of assistance can greatly improve recovery efforts. Predicting assistance amounts can help FEMA and other agencies plan and respond more effectively.
-
-    ### Technologies Used
-
-    - **Python**: For data analysis and machine learning.
-    - **Streamlit**: To create an interactive web application.
-    - **Machine Learning Models**: Support Vector Machines (SVM) for prediction.
-    - **Data Visualization**: Using Plotly and Seaborn for interactive and static plots.
-    - **Data Handling**: Pandas and NumPy for data manipulation.
-
+    We help predict how much money might be needed to help people affected by natural disasters. 
+    This helps FEMA (Federal Emergency Management Agency) better prepare and respond to emergencies.
     """)
+
+    # Explaining Each Tab
+    st.subheader("🎯 Our App's Features")
+    
+    # Dashboard Tab
+    st.markdown("""
+    ### 📊 Dashboard Tab
+    **What it shows:**
+    - Total number of disasters
+    - How much money was given to help people
+    - How many areas were affected
+    - Easy-to-read charts showing different types of disasters
+    
+    **Why it's useful:**
+    - Helps you quickly see the big picture
+    - Shows patterns in disaster data
+    """)
+
+    # Test Model Tab
+def about_tab():
+    st.header("About FEMA Disaster Analysis and Prediction Tool")
+    
+    # Project Overview Section
+    st.subheader("🎯 Project Overview")
+    st.markdown("""
+    This comprehensive tool analyzes FEMA (Federal Emergency Management Agency) disaster data and provides 
+    predictive insights for Individual and Household Program (IHP) assistance amounts through two distinct 
+    prediction scenarios:
+
+    #### Prediction Capabilities:
+    1. **Initial Assessment (Early Prediction)**
+       - Makes predictions at the onset of a disaster
+       - Uses minimal available data (ZIP codes affected and disaster type)
+       - Provides quick preliminary estimates for rapid response planning
+    
+    2. **Complete Assessment (Final Prediction)**
+       - Generates predictions using comprehensive post-disaster data
+       - Incorporates full disaster impact metrics
+       - Delivers more accurate estimates for final assistance amounts
+
+    Developed by Aceel Sherif and Hana Hailaa in 2025, this application serves as a sophisticated 
+    decision support system for disaster management and response planning, offering flexibility in 
+    prediction timing based on data availability.
+    """)
+    
+    # Tab Descriptions
+    st.subheader("📑 Application Tabs")
+    
+    # Dashboard Tab
+    st.markdown("""
+    #### 1. Dashboard
+    The Dashboard tab provides a comprehensive overview of FEMA disaster data through:
+    - **Summary Metrics**: Key statistics including total disasters, average IHP amounts, and affected areas
+    - **Interactive Visualizations**: Dynamic charts showing disaster distributions and trends
+    - **Data Preview**: Option to view raw data for detailed analysis
+    """)
+    
+    # Test Model Tab
+    st.markdown("""
+    #### 2. Test Model
+    The Test Model tab allows users to evaluate different machine learning models:
+    - **Model Selection**: Choose from multiple algorithms (SVM, Random Forest, etc.)
+    - **Assessment Types**:
+        - *Initial Assessment*: Early prediction with limited data
+        - *Complete Assessment*: Comprehensive prediction with full data
+    - **Performance Metrics**: View R-squared scores, MAE, and prediction accuracy
+    """)
+    
+    # Prediction Tab
+    st.markdown("""
+    #### 3. Enter Data for Prediction
+    Make real-time predictions using two assessment modes:
+    - **Initial Assessment**:
+        - Input: **Number of ZIP codes affected** and **disaster type**
+        - Purpose: Quick preliminary estimates for immediate response
+        - Best used: At the onset of a disaster
+    
+    - **Complete Assessment**:
+        - Input: Comprehensive disaster metrics including:
+            * FEMA assistance approvals
+            * Total inspections
+            * Maximum grants
+            * Disaster duration
+            * ZIP codes affected
+            * Disaster type
+        - Purpose: Accurate final estimates
+        - Best used: After collecting complete disaster impact data
+    
+    - **Prediction History**: Track and download previous predictions
+    """)
+    
+    # Technical Details
+    st.subheader("🔧 Technical Implementation")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+        **Core Technologies:**
+        - Python 3.x
+        - Streamlit
+        - Pandas & NumPy
+        - Scikit-learn
+        - Plotly & Seaborn
+        """)
+    
+    with col2:
+        st.markdown("""
+        **Machine Learning Models:**
+        - Support Vector Machine (SVM)
+        - Random Forest
+        - Gradient Boosting
+        - Linear Regression
+        """)
+    
+    # Data Sources and Methodology
+    st.subheader("📊 Data and Methodology")
+    st.markdown("""
+    - **Data Source**: FEMA disaster assistance data
+    - **Features**: Disaster type, duration, affected areas, assistance amounts
+    - **Preprocessing**: Log transformation, outlier handling
+    - **Model Training**: Split validation, cross-validation techniques
+    """)
+    
+    # Use Cases
+    st.subheader("💡 Primary Use Cases")
+    st.markdown("""
+    1. **Early Response Planning**: 
+        - Use initial assessment for quick resource mobilization
+        - Make preliminary budget allocations
+    
+    2. **Final Assistance Planning**:
+        - Use complete assessment for accurate final estimates
+        - Plan long-term recovery efforts
+    """)
+    # Footer Information
+    st.markdown("---")
+    st.markdown("""
+    <div style='text-align: center'>
+        <p>Developed as part of the Artificial Intelligence Olympiad</p>
+    </div>
+    """, unsafe_allow_html=True)
 def main():
     st.title("🌪️ FEMA Disaster Analysis and Prediction")
     st.markdown("""
