@@ -118,15 +118,41 @@ def create_summary_metrics(amt):
 
 def create_interactive_plots(amt):
     """Create interactive plots using Plotly"""
-    # Distribution of Incident Types
-    fig1 = px.pie(amt, names='incidentType', title='Distribution of Incident Types')
-    st.plotly_chart(fig1)
+    # Create two columns for better layout
+    col1, col2 = st.columns(2)
     
+    with col1:
+        # Distribution of Incident Types
+        fig1 = px.pie(amt,
+                    names='incidentType',
+                    title='Distribution of Incident Types'
+                    )
+        fig1.update_traces(textposition='inside', textinfo='percent+label')
+        st.plotly_chart(fig1)
+    with col2:
+        # 2. Average IHP Amount by Disaster Type (Bar Chart)
+        avg_ihp = amt.groupby('incidentType')['totalApprovedIhpAmount'].mean().reset_index()
+        fig2 = px.bar(avg_ihp, 
+                        x='incidentType', 
+                        y='totalApprovedIhpAmount',
+                        title='Average IHP Amount by Disaster Type',
+                        labels={'totalApprovedIhpAmount': 'Average IHP Amount ($)',
+                            'incidentType': 'Disaster Type'})
+        st.plotly_chart(fig2, use_container_width=True)
+
     # Time series of IHP Amounts
-    fig2 = px.scatter(amt, x='disasterLength', y='totalApprovedIhpAmount',
-                     color='incidentType', size='zip_counts',
-                     title='IHP Amount vs Disaster Length')
-    st.plotly_chart(fig2)
+    fig3 = px.scatter(amt,
+                      x='disasterLength',
+                      y='totalApprovedIhpAmount',
+                      color='incidentType',
+                      size='zip_counts',
+                      hover_data=['approvedForFemaAssistance'],
+                      title='IHP Amount vs Disaster Length',
+                      labels={'totalApprovedIhpAmount': 'IHP Amount ($)',
+                            'disasterLength': 'Disaster Duration (days)',
+                            'zip_counts': 'Number of ZIP Codes Affected'}
+                    )
+    st.plotly_chart(fig3)
 
 def make_prediction(input_data, model_path):
     """Make prediction and store in history"""
@@ -564,22 +590,26 @@ def main():
     with st.sidebar:
         st.header("Navigation")
         mode = st.radio("Choose Mode", ["Dashboard", "Test Model", "Enter Data for Prediction", "About"])
-        
+
     if st.checkbox("Show Data Preview"):
         st.dataframe(amt)
 
     if mode == "Dashboard":
+        st.header("📊 Dashboard")
+
+        # Display enhanced metrics and plots
         create_summary_metrics(amt)
         create_interactive_plots(amt)
-        
+
     elif mode == "Test Model":
         test_model_tab(logamt, amt)
-        
+
     elif mode == "Enter Data for Prediction":
         prediction_tab(logamt, amt)
 
     elif mode == "About":
         about_tab()
+
     # Show prediction history
     show_prediction_history()
 
