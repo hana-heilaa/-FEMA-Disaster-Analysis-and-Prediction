@@ -163,28 +163,6 @@ def show_prediction_history():
             mime="text/csv"
         )
 
-def get_model_path(model_type, assessment_type):
-    """Get the appropriate model path based on selection"""
-    model_paths = {
-        "Support Vector Machine (SVM)": {
-            "initial": 'models/SVC_model_pre-disaster.pkl',
-            "complete": 'models/SVC_model_post-disaster.pkl'
-        },
-        "Random Forest": {
-            "initial": 'models/RF_model_pre-disaster.pkl',
-            "complete": 'models/RF_model_post-disaster.pkl'
-        },
-        "Gradient Boosting Regressor": {
-            "initial": 'models/GBR_model_pre-disaster.pkl',
-            "complete": 'models/GBR_model_post-disaster.pkl'
-        },
-        "Linear Regression": {
-            "initial": 'models/linear_model_pre-disaster.pkl',
-            "complete": 'models/linear_model_post-disaster.pkl'
-        }
-    }
-    return model_paths[model_type][assessment_type]
-
 def test_model_tab(logamt, amt):
     """Handle test model functionality"""
 
@@ -195,24 +173,13 @@ def test_model_tab(logamt, amt):
         "Select Model Type",
         ["Support Vector Machine (SVM)", "Random Forest",  "Gradient Boosting Regressor", "Linear Regression"]
     )
-
-        # Add model description
-    model_descriptions = {
-        "Support Vector Machine (SVM)": "A powerful algorithm for both classification and regression that creates a hyperplane in high-dimensional space.",
-        "Random Forest": "An ensemble learning method that operates by constructing multiple decision trees and outputs the mean prediction of individual trees.",
-        "Gradient Boosting Regressor": "An ensemble technique that builds models sequentially by learning from the mistakes of previous models.",
-        "Linear Regression": "A simple but effective approach that models the relationship between variables using a linear equation."
-    }
-
-    st.info(f"**Model Description:** {model_descriptions[model_type]}")
-
     tab1, tab2 = st.tabs(["Initial Assessment", "Complete Assessment"])
 
     with tab1:
-        test_initial_assessment(logamt, model_type)
+        test_initial_assessment(logamt)
 
     with tab2:
-        test_complete_assessment(logamt, model_type)
+        test_complete_assessment(logamt)
 
 def prediction_tab(logamt, amt):
     """Handle prediction functionality"""
@@ -225,28 +192,24 @@ def prediction_tab(logamt, amt):
         predict_complete_assessment(logamt)
 
 
-def test_initial_assessment(df, model_type):
+def test_initial_assessment(df):
     """Test the initial assessment model"""
     st.header("Initial Assessment Model")
     
     if st.button("Run Initial Assessment"):
         X = df[['Zips'] + [col for col in df.columns if 'Type_' in col]]
+        model = joblib.load('SVC_model_pre-disaster.pkl')
         y = df['IhpAmount']
-
-        model_path = get_model_path(model_type, "initial")
-        model = joblib.load(model_path)
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         y_predict = model.predict(X_test)
 
         # Display metrics
-        col1, col2, col3 = st.columns(3)
+        col1, col2 = st.columns(2)
         with col1:
             st.metric("R-squared Score", f"{r2_score(y_test, y_predict):.3f}")
         with col2:
             st.metric("Mean Absolute Error", f"{mean_absolute_error(y_test, y_predict):.3f}")
-        with col3:
-            st.metric("Model", model_type)
 
         # Display results
         results = pd.DataFrame({
@@ -265,28 +228,24 @@ def test_initial_assessment(df, model_type):
                                 line=dict(dash='dash', color='red')))
         st.plotly_chart(fig)
 
-def test_complete_assessment(df, model_type):
+def test_complete_assessment(df):
     """Test the complete assessment model"""
     st.header("Complete Assessment Model")
     
     if st.button("Run Complete Assessment"):
         X = df.drop(columns=['IhpAmount'])
+        model = joblib.load('SVC_model_post-disaster.pkl')
         y = df['IhpAmount']
-
-        model_path = get_model_path(model_type, "complete")
-        model = joblib.load(model_path)
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         y_predict = model.predict(X_test)
 
         # Display metrics
-        col1, col2, col3 = st.columns(3)
+        col1, col2 = st.columns(2)
         with col1:
             st.metric("R-squared Score", f"{r2_score(y_test, y_predict):.3f}")
         with col2:
             st.metric("Mean Absolute Error", f"{mean_absolute_error(y_test, y_predict):.3f}")
-        with col3:
-            st.metric("Model", model_type)
 
         # Display results
         results = pd.DataFrame({
@@ -335,7 +294,7 @@ def predict_initial_assessment(logamt):
                 input_data[f'Type_{type_val}'] = 1 if type_val == incident_type else 0
 
             # Make prediction
-            predicted_amount = make_prediction(input_data, 'models/SVC_model_pre-disaster.pkl')
+            predicted_amount = make_prediction(input_data, 'SVC_model_pre-disaster.pkl')
             
             if predicted_amount is not None:
                 st.success(f"Predicted IHP Amount: ${predicted_amount:,.2f}")
@@ -386,7 +345,7 @@ def predict_complete_assessment(logamt):
                 input_data[f'Type_{type_val}'] = 1 if type_val == incident_type else 0
 
             # Make prediction
-            predicted_amount = make_prediction(input_data, 'models/SVC_model_post-disaster.pkl')
+            predicted_amount = make_prediction(input_data, 'SVC_model_post-disaster.pkl')
             
             if predicted_amount is not None:
                 st.success(f"Predicted IHP Amount: ${predicted_amount:,.2f}")
