@@ -426,32 +426,6 @@ def predict_complete_assessment(logamt):
                 st.plotly_chart(fig)
 
 def about_tab():
-    st.header("About")
-    st.subheader("📱 What Our App Does")
-    st.markdown("""
-    We help predict how much money might be needed to help people affected by natural disasters. 
-    This helps FEMA (Federal Emergency Management Agency) better prepare and respond to emergencies.
-    """)
-
-    # Explaining Each Tab
-    st.subheader("🎯 Our App's Features")
-    
-    # Dashboard Tab
-    st.markdown("""
-    ### 📊 Dashboard Tab
-    **What it shows:**
-    - Total number of disasters
-    - How much money was given to help people
-    - How many areas were affected
-    - Easy-to-read charts showing different types of disasters
-    
-    **Why it's useful:**
-    - Helps you quickly see the big picture
-    - Shows patterns in disaster data
-    """)
-
-    # Test Model Tab
-def about_tab():
     st.header("About FEMA Disaster Analysis and Prediction Tool")
     
     # Project Overview Section
