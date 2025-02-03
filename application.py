@@ -591,7 +591,7 @@ def main():
     st.markdown("<br><hr>", unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("<center>Developed by Aceel Sherif and Hana Hailaa 2025 💕</center>", unsafe_allow_html=True)
+        st.markdown("<center>Developed by Aseel Sherif and Hana Hailaa 2025 💕</center>", unsafe_allow_html=True)
     with col2:
         st.markdown("<center>FEMA Disaster Analysis and Prediction Tool</center>", unsafe_allow_html=True)
 
