@@ -12,7 +12,7 @@ from scipy.stats.mstats import winsorize
 
 # Page Configuration
 st.set_page_config(
-    page_title="FEMA Disaster Analysis",
+    page_title="Rapid Relief",
     page_icon="🌪️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -426,7 +426,7 @@ def predict_complete_assessment(logamt):
                 st.plotly_chart(fig)
 
 def about_tab():
-    st.header("About FEMA Disaster Analysis and Prediction Tool")
+    st.header("About Rapid Relief")
     
     # Project Overview Section
     st.subheader("🎯 Project Overview")
@@ -548,7 +548,7 @@ def about_tab():
     </div>
     """, unsafe_allow_html=True)
 def main():
-    st.title("🌪️ FEMA Disaster Analysis and Prediction")
+    st.title("🌪️ Rapid Relief")
     st.markdown("""
     This application analyzes FEMA disaster data and predicts Individual and Household Program (IHP) 
     assistance amounts using machine learning models.
@@ -593,7 +593,7 @@ def main():
     with col1:
         st.markdown("<center>Developed by Aseel Sherif and Hana Hailaa 2025 💕</center>", unsafe_allow_html=True)
     with col2:
-        st.markdown("<center>FEMA Disaster Analysis and Prediction Tool</center>", unsafe_allow_html=True)
+        st.markdown("<center>Rapid Relief Tool</center>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
